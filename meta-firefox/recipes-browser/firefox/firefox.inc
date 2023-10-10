@@ -10,8 +10,8 @@ RDEPENDS:${PN} = "libva"
 RDEPENDS:${PN}-dev = "dbus"
 
 # use system's nss in case the CPU has no native crypto support (e.g. armv7)
-DEPENDS += "${@bb.utils.contains("TUNE_FEATURES", "crypto", "", "nss-3.89", d)}"
-RDEPENDS:${PN} += "${@bb.utils.contains("TUNE_FEATURES", "crypto", "", "nss-3.89 nspr", d)}"
+DEPENDS += "${@bb.utils.contains("TUNE_FEATURES", "crypto", "", "nss-3.93", d)}"
+RDEPENDS:${PN} += "${@bb.utils.contains("TUNE_FEATURES", "crypto", "", "nss-3.93 nspr", d)}"
 
 LICENSE = "MPL-2.0"
 
@@ -28,6 +28,7 @@ SRC_URI += "https://ftp.mozilla.org/pub/firefox/releases/${PV}/source/firefox-${
            file://mozilla-firefox.desktop \
            file://mozconfig \
            file://prefs/vendor.js \
+           file://bug1545437-enable-to-specify-rust-target.patch \
            file://0001-trust-yocto-rust-binary.patch \
            file://0002-use-offline-crates.patch \
            file://0003-configure-use-rustflags-and-stay-offline.patch \
