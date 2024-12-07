@@ -28,7 +28,7 @@ jobs:
          rm -rf meta-browser
          git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
          cd meta-browser
-         git checkout $GITHUB_REF_NAME
+         git checkout $GITHUB_SHA
          cd ..
          whoami
          cat /etc/os-release
