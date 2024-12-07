@@ -20,14 +20,12 @@ jobs:
          if [ -d /yocto/test-images/kirkstone-esr-x86 ]; then
            exit 0
          fi
-         echo xxx
-         pwd
-         echo xxx
          mkdir -p /yocto/kirkstone
          cd /yocto/kirkstone
          rm -rf meta-browser
          git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
          cd meta-browser
+         echo git checkout $GITHUB_BASE_REF
          git checkout $GITHUB_BASE_REF
          cd ..
          whoami
