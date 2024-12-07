@@ -16,15 +16,16 @@ jobs:
         - yocto:/yocto
     environment: ff-build-env
     steps:
-      - uses: actions/checkout@v3
-        with:
-          path: workspace/kirkstone/meta-browser
-          ref: ${{ github.ref }}
       - run: |
          if [ -d /yocto/test-images/kirkstone-esr-x86 ]; then
            exit 0
          fi
          cd workspace/kirkstone
+         rm -rf meta-browser
+         git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
+         cd meta-browser
+         git checkout $GITHUB_REF
+         cd ..
          whoami
          cat /etc/os-release
          kas checkout --update ./meta-browser/meta-firefox/kas/kirkstone-esr-x86_64-test.yml
