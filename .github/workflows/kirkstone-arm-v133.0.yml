@@ -1,5 +1,5 @@
-name: kirkstone-x86_64-128.5.1esr
-run-name: Build ESR Firefox for x86_64 architecture with Kirkstone
+name: kirkstone-arm-133.0
+run-name: Build latest Firefox for 32-bit ARM architecture with Kirkstone
 on:
   pull_request:
     branches:
@@ -8,7 +8,7 @@ on:
       - 'meta-firefox/**'
 
 jobs:
-  build-kirkstone-x86_64-esr:
+  build-kirkstone-arm-esr:
     runs-on: [self-hosted, desktop]
     container:
       image: skandigraun/yocto:latest
@@ -17,7 +17,7 @@ jobs:
     environment: ff-build-env
     steps:
       - run: |
-         if [ -d /yocto/test-images/kirkstone-esr-x86 ]; then
+         if [ -e /yocto/test-images/kirkstone-arm-latest.wic.bz2 ]; then
            exit 0
          fi
          mkdir -p /yocto/kirkstone
@@ -25,8 +25,8 @@ jobs:
          rm -rf meta-browser
          git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
          git -C meta-browser checkout $GITHUB_HEAD_REF
-         kas checkout --update ./meta-browser/meta-firefox/kas/kirkstone-esr-x86_64-test.yml
-         kas shell ./meta-browser/meta-firefox/kas/kirkstone-esr-x86_64-test.yml -c "bitbake -c clean firefox firefox-test-image \
+         kas checkout --update ./meta-browser/meta-firefox/kas/kirkstone-latest-arm-test.yml
+         kas shell ./meta-browser/meta-firefox/kas/kirkstone-latest-arm-test.yml -c "bitbake -c clean firefox firefox-test-image \
                   firefox-l10n-ach          firefox-l10n-en-gb  firefox-l10n-hi-in  firefox-l10n-ms     firefox-l10n-sr \
                   firefox-l10n-af           firefox-l10n-en-us  firefox-l10n-hr     firefox-l10n-my     firefox-l10n-sv-se \
                   firefox-l10n-an           firefox-l10n-eo     firefox-l10n-hsb    firefox-l10n-nb-no  firefox-l10n-szl \
@@ -48,5 +48,6 @@ jobs:
                   firefox-l10n-gn           firefox-l10n-lv     firefox-l10n-sl     firefox-l10n-el     firefox-l10n-gu-in \
                   firefox-l10n-mk           firefox-l10n-son    firefox-l10n-en-ca  firefox-l10n-he     firefox-l10n-mr \
                   firefox-l10n-sq"
-         kas build ./meta-browser/meta-firefox/kas/kirkstone-esr-x86_64-test.yml
-         cp -r build/tmp/deploy/images/qemux86-64 /yocto/test-images/kirkstone-esr-x86
+         kas build ./meta-browser/meta-firefox/kas/kirkstone-latest-arm-test.yml
+         mv build/tmp/deploy/images/raspberrypi3/firefox-test-image-raspberrypi3-*.rootfs.wic.bz2 /yocto/test-images/kirkstone-arm-latest.wic.bz2
+         mv build/tmp/deploy/images/raspberrypi3/firefox-test-image-raspberrypi3-*.rootfs.wic.bmap /yocto/test-images/kirkstone-arm-latest.wic.bmap
