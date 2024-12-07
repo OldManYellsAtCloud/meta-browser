@@ -23,7 +23,8 @@ jobs:
          echo xxx
          pwd
          echo xxx
-         cd workspace/kirkstone
+         mkdir -p kirkstone
+         cd kirkstone
          rm -rf meta-browser
          git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
          cd meta-browser
