@@ -8,7 +8,7 @@ on:
       - 'meta-firefox/**'
 
 jobs:
-  build-kirkstone-arm-esr:
+  build-kirkstone-arm-latest:
     runs-on: [self-hosted, desktop]
     container:
       image: skandigraun/yocto:latest
