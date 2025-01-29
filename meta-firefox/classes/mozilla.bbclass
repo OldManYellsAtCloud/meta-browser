@@ -8,7 +8,10 @@ EXTRA_OECONF = "--target=${TARGET_SYS} --host=${BUILD_SYS} \
                 --prefix=${prefix} \
                 --libdir=${libdir}"
 
-EXTRA_OECONF:append:arm = " --disable-sandbox "
+EXTRA_OECONF:append:arm = " --disable-sandbox --disable-elf-hack "
+EXTRA_OECONF:append:aarch64 = " --disable-elf-hack "
+EXTRA_OECONF:append:x86-64 = " --disable-elf-hack "
+
 SELECTED_OPTIMIZATION = "-Os -fsigned-char -fno-strict-aliasing"
 
 export CROSS_COMPILE = "1"
