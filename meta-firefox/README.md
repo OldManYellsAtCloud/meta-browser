@@ -124,6 +124,9 @@ PACKAGECONFIG knobs
   Disable collecting profile statistics in different components of the browser. Reduces
   resource and size footprint (though not drastically).
 
+* rust-simd: (on by default)
+  Enable explicit SIMD in Rust code, when supported by the CPU.
+
 * wayland-only: (off by default, only v120+)
   Don't build Firefox with X11 dependencies. This config should not be enabled if x11-only
   is enabled.
