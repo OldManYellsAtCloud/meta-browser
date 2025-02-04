@@ -26,10 +26,9 @@ and/or Yocto.
 
 This layer depends on oe-core (poky), meta-oe and meta-clang. Additionally, the Rust version
 shipped with Kirkstone and Scarthgap oe-core is out of date, which can be remediated by other
-third-party layers: when using Kirkstone either meta-rust or meta-lts-mixins (kirkstone/rust
-branch) is required, and when using Scarthgap, meta-lts-mixins (scarthgap/rust branch) is
-recommended. (The Rust-providing layers are not enforced currently, since there are multiple
-actively maintained layers. Use the one that works the best for the rest of your project.)
+third-party layers: for Kirkstone and Scarthgap version he corresponding branch of meta-lts-mixins
+is required for up to date Rust compiler. It is fairly easy to make meta-rust layer work also,
+however there is no out of box support for it.
 
 For the tested revision/release combinations, see the contents of the `kas` folder - that 
 contains all the branch/revision information used for testing.
@@ -49,10 +48,10 @@ Testing is performed using the following combinations:
 
 | Yocto version | Rust version |
 | ---------------- | ----- |
-| Kirkstone | Rust 1.78 from meta-rust |
-| Scarthgap | Rust 1.80.1 from meta-lts-mixins (scarthgap/rust branch) |
+| Kirkstone | Rust 1.80.1 from meta-lts-mixins (kirkstone/rust branch) |
+| Scarthgap | Rust 1.81.0 from meta-lts-mixins (scarthgap/rust branch) |
 | Styhead | Rust 1.79 from oe-core |
-| Walnascar | Rust 1.80.1 from oe-core |
+| Walnascar | Rust 1.81.0 from oe-core |
 
 Based on my testing, some datalayouts has changed in Rust 1.76, which also made it necessary to change them for Arm achitectures, by adding the following to local.conf:
 
