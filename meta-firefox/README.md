@@ -66,6 +66,8 @@ Contributing
 The preferred way to contribute to this layer is to send GitHub pull requests or
 report problems in GitHub's issue tracker.
 
+Classic patch submissions are not accepted for this layer.
+
 Maintainers
 -----------
 * OldManYellsAtCloud/Gyorgy Sarvari <skandigraun@gmail.com>
