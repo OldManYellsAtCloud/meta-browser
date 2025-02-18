@@ -37,8 +37,6 @@ contains all the branch/revision information used for testing.
 install it, in case it is missing  (e.g. on Debian based systems install `libstdc++-dev` or
 on Fedora install `libstdc++-devel`)
 
-Note: Make sure to add `RUST_PANIC_STRATEGY = "abort"` to local.conf before compiling Rust.
-
 Note: Firefox requires at least Rust 1.76 starting from version 127. meta-rust layer provides
 1.78, however this layer is not compatible with Scarthgap (nor newer). Fortunately lately a
 meta-lts-mixins layer has been created with a more up to date version of Rust, for Scarthgap.
