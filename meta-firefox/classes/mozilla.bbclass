@@ -79,3 +79,6 @@ mozilla_do_install() {
 }
 
 EXPORT_FUNCTIONS do_install do_compile
+
+deltask rust_gen_targets
+addtask rust_gen_targets after do_patch before do_configure
