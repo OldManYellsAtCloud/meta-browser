@@ -29,7 +29,7 @@ export BUILD_VERBOSE_LOG = "1"
 
 mozilla_run_mach() {
 	export SHELL="/bin/sh"
-	export RUSTFLAGS="${RUSTFLAGS} -Cpanic=abort -Clinker=${WORKDIR}/wrapper/target-rust-ccld --sysroot=${RECIPE_SYSROOT}"
+	export RUSTFLAGS="${RUSTFLAGS} -Clinker=${WORKDIR}/wrapper/target-rust-ccld --sysroot=${RECIPE_SYSROOT}"
 
 	# For Kirkstone meta-rust layer is required, however
 	# that seems to set different target/host triplets compared
