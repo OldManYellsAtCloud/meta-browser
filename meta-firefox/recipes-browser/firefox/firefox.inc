@@ -241,25 +241,19 @@ FILES:${PN} = "${bindir}/${PN} \
                ${datadir}/applications/ \
                ${datadir}/pixmaps/ \
                ${libdir}/${PN}/* \
-               ${libdir}/${PN}/.autoreg \
-               ${bindir}/defaults \
-               ${bindir} \
-               ${libdir}/firefox/*"
+               ${bindir}"
 
-FILES:${PN}-dev += "${datadir}/idl ${bindir}/${PN}-config ${libdir}/${PN}-devel-*"
-FILES:${PN}-staticdev += "${libdir}/${PN}-devel-*/sdk/lib/*.a"
 FILES:${PN}-dbg += "${libdir}/${PN}/.debug \
                     ${libdir}/${PN}/*/.debug \
                     ${libdir}/${PN}/*/*/.debug \
                     ${libdir}/${PN}/*/*/*/.debug \
-                    ${libdir}/${PN}-devel-*/*/.debug \
-                    ${libdir}/${PN}-devel-*/*/*/.debug \
-                    ${libdir}/${PN}-devel-*/*/*/*/.debug \
-                    ${libdir}/${PN}/fix_linux_stack.py \
                     ${bindir}/.debug"
 
 # We don't build XUL as system shared lib, so we can mark all libs as private
 PRIVATE_LIBS = " \
+    libipcclientcerts.so \
+    libmozsandbox.so \
+    libgkcodecs.so \
     libmozjs.so \
     libxpcom.so \
     libnspr4.so \
