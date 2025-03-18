@@ -4,6 +4,8 @@
 include firefox_crates_latest.inc
 include firefox.inc
 
+DEPENDS:append:libc-musl = " libexecinfo "
+
 LIC_FILES_CHKSUM = "file://toolkit/content/license.html;md5=20d883514bd953070b1a93a475d0d0cb \
                     file://LICENSE;md5=dc9b6ecd19a14a54a628edaaf23733bf"
 
