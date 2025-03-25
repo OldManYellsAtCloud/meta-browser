@@ -62,3 +62,4 @@ jobs:
           reporter: java-junit
           name: Test Results - ${{ matrix.yocto_version}} ${{ matrix.arch }} ${{ matrix.ff_version }} ${{ matrix.libc_flavour}}
           working-directory: /yocto/${{ matrix.yocto_version }}/meta-browser
+          fail-on-empty: false
