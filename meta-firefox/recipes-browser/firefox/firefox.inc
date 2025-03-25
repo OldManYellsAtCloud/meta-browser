@@ -48,6 +48,7 @@ SRC_URI += "https://ftp.mozilla.org/pub/firefox/releases/${PV}/source/firefox-${
            file://0002-use-offline-crates.patch \
            file://0004-Fix-compiling-with-enable-openmax-config.patch \
            file://0001-rust-don-t-abort-on-panic.patch \
+           file://0001-add-musl-support.patch \
            file://debian-hacks/Add-another-preferences-directory-for-applications-p.patch \
            file://debian-hacks/Avoid-using-vmrs-vmsr-on-armel.patch \
            file://debian-hacks/Avoid-wrong-sessionstore-data-to-keep-windows-out-of.patch \
@@ -151,7 +152,11 @@ PACKAGECONFIG[rust-simd] = "--enable-rust-simd,,"
 # nspr and nss dependencies are handled separately, due to requiring
 # different versions depending on Yocto version and CPU capabilities.
 PACKAGECONFIG[system-nspr] = "--with-system-nspr,,nspr-4.35,nspr-4.35"
+<<<<<<< HEAD
 PACKAGECONFIG[system-nss] = "--with-system-nss,,nss-3.107,nss-3.107"
+=======
+PACKAGECONFIG[system-nss] = "--with-system-nss,,nss-3.108,nss-3.108"
+>>>>>>> master
 PACKAGECONFIG[system-ffi] = "--with-system-ffi,,libffi,libffi"
 PACKAGECONFIG[system-icu] = "--with-system-icu,,icu,icu"
 PACKAGECONFIG[system-zlib] = "--with-system-zlib,,zlib,zlib"
@@ -172,11 +177,19 @@ DEPENDS:append = '${@bb.utils.contains("PACKAGECONFIG", "disable-sandboxed-libra
 
 # At the end of do_configure task cargo-common class takes all
 # the git repos from the SRC_URI, and appends them to the end
-# of cargo_home/config as repo patches for separate crates.
-# This might work for building pure Rust applications, but not
-# so much when the application comes with their own build system
-# (like Firefox).
-#
+# of cargo_home/config as repo patches for separate crates, if
+# they have a name and destsuffix parameter.
+
+# This works for most crates, however not for all - this is mostly
+# a problem for repositories where the source code is not in the
+# top level folder, and for repositories which are actually a workspace,
+# and may contain multiple crates in multiple subfolders - they might
+# even refer to different subfolders. When this is the case, the above
+# method only sets the top folder in the patch, which makes cargo not
+# find the crates, and fail. This is also the main reason why Cargo.toml
+# is patched directly, instead of letting cargo_common class just include
+# these patches.
+
 # To avoid this, save the SRC_URI variable before the do_configure
 # task, and remove all the git repos from it. At the end of the do_configure
 # task just restore it to its original value.

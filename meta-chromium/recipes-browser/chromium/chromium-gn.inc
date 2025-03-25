@@ -26,6 +26,10 @@ SRC_URI += "\
     file://0009-Adjust-the-Rust-build-to-our-needs.patch \
     file://0010-Don-t-require-profiler_builtins.rlib.patch \
     file://0011-Disable-crabbyavif-to-fix-build-errors.patch \
+    file://0012-Revert-Allow-and-use-std-hardware_destructive_interf.patch \
+    file://0013-Revert-Set-Rust-symbol-visibility-to-hidden-when-C-s.patch \
+    file://0014-pdfium-Fix-missing-PDFiumAPIStringBufferAdapter-temp.patch \
+    file://0015-Revert-Connect-the-Rust-log-crate-to-the-base-loggin.patch \
 "
 # ARM/AArch64-specific patches.
 SRC_URI:append:aarch64 = "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '', ' file://arm/0001-Fix-AES-crypto-SIGILL-on-rpi4-64.patch', d)}"
@@ -356,7 +360,7 @@ GN_ARGS:append:armv6 = ' arm_use_neon=false'
 GN_ARGS:append:libc-musl = ' use_allocator_shim=false use_partition_alloc_as_malloc=false enable_backup_ref_ptr_support=false'
 
 CHROMIUM_EXTRA_ARGS ?= " \
-        ${@bb.utils.contains('PACKAGECONFIG', 'use-egl', '--use-gl=egl', '', d)} \
+        ${@bb.utils.contains('PACKAGECONFIG', 'use-egl', '--use-angle=gles-egl', '', d)} \
         ${@bb.utils.contains('PACKAGECONFIG', 'kiosk-mode', '--kiosk --no-first-run --incognito', '', d)} \
         ${@bb.utils.contains('PACKAGECONFIG', 'gtk4', '--gtk-version=4', '', d)} \
 "
