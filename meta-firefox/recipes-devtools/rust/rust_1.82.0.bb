@@ -7,6 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c2cccf560306876da3913d79062a54b9"
 inherit rust
 inherit cargo_common
 
+RUST_BASEDIR = '${@ "${WORKDIR}" if d.getVar("UNPACKDIR") == None \
+                else d.getVar("UNPACKDIR")}'
+
 DEPENDS += "file-native python3-native"
 DEPENDS:append:class-native = " rust-llvm-native"
 DEPENDS:append:class-nativesdk = " nativesdk-rust-llvm"
@@ -51,7 +54,7 @@ setup_cargo_environment () {
 inherit rust-target-config
 
 do_rust_setup_snapshot () {
-    for installer in "${UNPACKDIR}/rust-snapshot-components/"*"/install.sh"; do
+    for installer in "${RUST_BASEDIR}/rust-snapshot-components/"*"/install.sh"; do
         "${installer}" --prefix="${WORKDIR}/rust-snapshot" --disable-ldconfig
     done
 
