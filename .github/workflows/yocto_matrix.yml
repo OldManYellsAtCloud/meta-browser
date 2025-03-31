@@ -1,11 +1,6 @@
 name: Firefox build- and smoke-test
 
-on:
-  pull_request:
-    branches:
-      - master
-    paths:
-      - 'meta-firefox/**'
+on: workflow_dispatch
 
 permissions:
   contents: read
