@@ -29,19 +29,24 @@ the kas folder - that contains all the branch/revision information used for test
 install it, in case it is missing  (e.g. on Debian based systems install `libstdc++-dev` or
 on Fedora install `libstdc++-devel`)
 
-Note: Firefox requires at least Rust 1.76 starting from version 127. meta-rust layer provides
-1.78, however this layer is not compatible with Scarthgap (nor newer). Fortunately lately a
-meta-lts-mixins layer has been created with a more up to date version of Rust, for Scarthgap.
+Note: Firefox requires at least Rust 1.76 starting from version 127, and Rust 1.82 from version 137. 
+At this time only the master branch of oe-core provides a sufficiently new version of Rust to
+compile Firefox. To mitigate this temporarily, this layer contains recipes for Rust 1.82
+(taken from oe-core) - which is only required for the latest version of Firefox (ESR can be
+still compiled without these vendored recips). Once the relevant lts-mixin layers are up to date 
+enough, these recipes will be dropped.
+
+It is recommended to add the not used Rust recipes to BBMASK to avoid version mixups.
 
 The state of Rust needs some caution when it comes to the the version used, and its provider.
 Testing is performed using the following combinations:
 
-| Yocto version | Rust version |
-| ---------------- | ----- |
-| Kirkstone | Rust 1.80.1 from meta-lts-mixins (kirkstone/rust branch) |
-| Scarthgap | Rust 1.81.0 from meta-lts-mixins (scarthgap/rust branch) |
-| Styhead | Rust 1.79 from oe-core |
-| Walnascar | Rust 1.83.0 from oe-core |
+| Yocto version | Rust version ESR | Rust version latest |
+| ---------------- | ----- | ---- |
+| Kirkstone | Rust 1.80.1 from meta-lts-mixins (kirkstone/rust branch) | Rust 1.82.0 from this layer |
+| Scarthgap | Rust 1.81.0 from meta-lts-mixins (scarthgap/rust branch) | Rust 1.82.0 from this layer |
+| Styhead | Rust 1.79 from oe-core | Rust 1.82.0 from this layer |
+| Walnascar | Rust 1.83.0 from oe-core | Rust 1.83.0 from oe-core |
 
 Based on my testing, some datalayouts has changed in Rust 1.76, which also made it necessary to change them for Arm achitectures, by adding the following to local.conf:
 
