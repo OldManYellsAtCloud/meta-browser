@@ -1,3 +1,10 @@
+# MERGED UPSTREAM - FORK IS UNMAINTAINED
+
+In case you are using this fork, I recommend you not to. It has been merged upstream, where the maintenance of this layer continues.
+Please use the following repo: https://github.com/OSSystems/meta-browser
+
+This repository is now a testing playground - though I'm trying to keep it somewhat intact. But you should switch to the upstream repo in any case.
+
 Current build and test status: [![Firefox build- and smoke-test](https://github.com/OldManYellsAtCloud/meta-browser/actions/workflows/yocto_matrix.yml/badge.svg)](https://github.com/OldManYellsAtCloud/meta-browser/actions/workflows/yocto_matrix.yml)
 
 The following build combinations are tested automatically for each PR (the current config only allows to generate 1 summary badge, for everything):
