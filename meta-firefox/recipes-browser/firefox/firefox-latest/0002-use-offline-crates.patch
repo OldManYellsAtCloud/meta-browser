@@ -105,8 +105,8 @@ Upstream-Status: Inappropriate [oe specific]
  
  [target.'cfg(windows)'.dependencies]
 --- ./Cargo.toml	2025-03-31 14:18:01.048105894 +0200
-+++ ./Cargo.toml	2025-03-31 15:50:38.066235466 +0200
-@@ -206,36 +206,84 @@
++++ ./Cargo.toml	2025-04-02 08:03:47.551818305 +0200
+@@ -206,36 +206,85 @@
  plist = { path = "third_party/rust/plist" }
  
  # To-be-published changes.
@@ -189,6 +189,7 @@ Upstream-Status: Inappropriate [oe specific]
 +wgpu-core = { path = "../wgpu/wgpu-core" }
 +wgpu-types = { path = "../wgpu/wgpu-types" }
 +wgpu-hal = { path = "../wgpu/wgpu-hal" }
++wgpu-core-deps-windows-linux-android = { path = "../wgpu/wgpu-core/platform-deps/windows-linux-android" }
 +
 +[patch."https://github.com/mozilla/neqo"]
 +neqo-bin = { path = "../neqo/neqo-bin", version = "0.12.2" }
