@@ -11,13 +11,15 @@ jobs:
   build:
     strategy:
       matrix:
-        yocto_version: [kirkstone, scarthgap, walnascar]
+        yocto_version: [kirkstone, scarthgap, styhead, walnascar]
         ff_version: [esr, latest]
         libc_flavour: [glibc, musl]
         arch: [arm, aarch64, riscv, x86-64]
         exclude:
           - yocto_version: kirkstone
             arch: riscv
+          - yocto_version: styhead
+            ff_version: latest
     runs-on: [self-hosted, firefox]
     container:
       image: skandigraun/yocto:latest
@@ -45,6 +47,8 @@ jobs:
         exclude:
           - yocto_version: kirkstone
             arch: riscv
+          - yocto_version: styhead
+            ff_version: latest
     steps:
       - run: |
          cd /yocto/${{ matrix.yocto_version }}
