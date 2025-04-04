@@ -40,7 +40,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        yocto_version: [kirkstone, scarthgap, walnascar]
+        yocto_version: [kirkstone, scarthgap, styhead, walnascar]
         ff_version: [esr, latest]
         libc_flavour: [glibc, musl]
         arch: [arm, aarch64, riscv, x86-64]
