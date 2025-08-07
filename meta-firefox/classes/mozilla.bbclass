@@ -29,10 +29,11 @@ export MOZ_OBJDIR = "${S}/firefox-build-dir"
 export MOZBUILD_STATE_PATH = "${S}/mozbuild_state"
 
 export OUT_DIR = "${S}/build/target/release/deps"
-export WASI_SYSROOT = "${STAGING_DATADIR_NATIVE}/wasi-sysroot"
+#export WASI_SYSROOT = "${STAGING_DATADIR_NATIVE}/wasi-sysroot"
+export WASI_SYSROOT = "${RECIPE_SYSROOT_NATIVE}"
 
-export WASM_CC = "${WASI_SYSROOT}/bin/clang -target wasm32-wasi "
-export WASM_CXX = "${WASI_SYSROOT}/bin/clang++ -target wasm32-wasi "
+export WASM_CC = "clang -target wasm32-wasi -resource-dir ${RECIPE_SYSROOT_NATIVE}/${prefix}/clang-resource-dir ${BUILD_CFLAGS} -isystem${WASI_SYSROOT}/include -isystem${RECIPE_SYSROOT_NATIVE}/usr/lib/clang/18/include"
+export WASM_CXX = "clang++ -target wasm32-wasi -resource-dir ${RECIPE_SYSROOT_NATIVE}/${prefix}/clang-resource-dir ${BUILD_CXXFLAGS} -isystem${WASI_SYSROOT}/include -isystem${RECIPE_SYSROOT_NATIVE}/usr/lib/clang/18/include"
 
 export BUILD_VERBOSE_LOG = "1"
 

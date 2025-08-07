@@ -1,0 +1,38 @@
+From e058fbd922b3e3a50a915227b310f2592537e1b1 Mon Sep 17 00:00:00 2001
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+Date: Fri, 1 Aug 2025 15:41:23 +0200
+Subject: [PATCH] install sdk to regular sysroot
+
+By default wasi-sdk uses it's own toolchain, which is clang, that can only
+compile WebAssembly. However Yocto also comes with clang, so it is much faster
+to compile clang once (including multiple targets), rather than compiling it
+twice.
+
+When compiling applications with wasi-sdk, it passes its own sysroot argument to
+clang, which is, by default, "/usr/share/wasi-sdk". It installs it's own rootfs here.
+In case wasi-sdk does not come with its own toolchain, than this sysroot does not have
+the clang headers (nor other clang things).
+
+And this is what this patch is trying to help: install wasi-sdk in /usr, instead of
+/usr/share/wasi-sdk. This way clang should be able to find the required headers.
+
+Upstream-Status: Pending
+
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ cmake/wasi-sdk-sysroot.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmake/wasi-sdk-sysroot.cmake b/cmake/wasi-sdk-sysroot.cmake
+index 25d5837..2b0920d 100644
+--- a/cmake/wasi-sdk-sysroot.cmake
++++ b/cmake/wasi-sdk-sysroot.cmake
+@@ -27,7 +27,7 @@ option(WASI_SDK_LTO "Whether or not to build LTO assets" ON)
+ set(WASI_SDK_CPU_CFLAGS "-mcpu=lime1" CACHE STRING "CFLAGS to specify wasm features to enable")
+ 
+ set(wasi_tmp_install ${CMAKE_CURRENT_BINARY_DIR}/install)
+-set(wasi_sysroot ${wasi_tmp_install}/share/wasi-sysroot)
++set(wasi_sysroot ${wasi_tmp_install})
+ set(wasi_resource_dir ${wasi_tmp_install}/wasi-resource-dir)
+ 
+ if(WASI_SDK_DEBUG_PREFIX_MAP)

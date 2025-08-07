@@ -1,0 +1,27 @@
+From e72aaa2fcc482439f8e95d98f69aaa0cec7f2b64 Mon Sep 17 00:00:00 2001
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+Date: Wed, 30 Jul 2025 21:04:07 +0200
+Subject: [PATCH] lower cmake requirement
+
+Lower cmake requirement to 3.22 so it can be compiled with Kirkstone also.
+
+Upstream-Status: Inappropriate [oe-specific]
+
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a0d3fca..22ef298 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -6,7 +6,7 @@
+ # WASI sysroot build requires this previous compiler and must be runnable on
+ # the host.
+ 
+-cmake_minimum_required(VERSION 3.26)
++cmake_minimum_required(VERSION 3.22)
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+ project(wasi-sdk)
+ include(ExternalProject)
