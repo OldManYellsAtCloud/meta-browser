@@ -1,0 +1,85 @@
+SUMMARY = "WebAssembly SDK"
+HOMEPAGE = "https://github.com/WebAssembly/wasi-sdk"
+DESCRIPTION = "SDK for WebAssembly System Interface (WASI)"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=a1ba2b4c4f909ac0b517d8a37d2ac70f"
+
+inherit cmake native
+
+DEPENDS = "clang-native ninja-native wasm-component-ld-native compiler-rt-native"
+
+SRC_URI = "gitsm://github.com/WebAssembly/wasi-sdk.git;protocol=https;branch=main \
+           file://0001-lower-cmake-requirement.patch"
+
+#SRC_URI += "file://0001-disable-exceptions-and-bulk-memory.patch \
+#            file://0001-allow-compiling-with-cmake-4.patch"
+# file://0001-install-sdk-to-regular-sysroot.patch
+
+SRCREV = "fbdec30656d4099da5c7fd7e8275e4af777ca97e"
+
+SRC_URI[sha256sum] = "9e0f382110a3cf9196f02432c8f2e54d151515de36f9311c8c16073f6e6b16d3"
+
+TOOLCHAIN = "clang"
+TOOLCHAIN:class-native = "clang"
+
+RUNTIME = "llvm"
+RUNTIME:class-native = "llvm"
+
+LD = "wasm-ld "
+BUILD_LD = "wasm-ld "
+
+# it is built for wasm32-wasi target, not for build host
+CC:remove = "${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER}"
+CXX:remove = "${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER}"
+CCLD:remove = "${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER}"
+CPP:remove = "${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER}"
+LDFLAGS:remove = "${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER} ${COMPILER_RT}"
+
+OECMAKE_C_FLAGS:remove = "${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER}"
+OECMAKE_CXX_FLAGS:remove = "${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER}"
+
+OECMAKE_C_LINK_FLAGS:remove = "${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER}"
+OECMAKE_CXX_LINK_FLAGS:remove = "${HOST_CC_ARCH} -Wl,--enable-new-dtags -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_LIBDIR_NATIVE} -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER}"
+
+LDFLAGS:remove = "-Wl,--hash-style=gnu -Wl,--as-needed -Wl,-z,relro,-z,now"
+
+# OEMAKE_EXTRA:task-compile = " strip "
+
+EXTRA_OECMAKE += "-DCMAKE_C_COMPILER_WORKS=ON -DCMAKE_CXX_COMPILER_WORKS=ON   -DCMAKE_C_LINKER_DEPFILE_SUPPORTED=OFF  -DCMAKE_CXX_LINKER_DEPFILE_SUPPORTED=OFF"
+
+# By default it is compiled for lime1 CPU, which was introduced in clang 20
+# However Kirkstone is using clang 18, so compile it for generic CPU
+EXTRA_OECMAKE += "-DWASI_SDK_CPU_CFLAGS='-mcpu=generic'"
+
+
+do_install:append(){
+	install -d ${D}${datadir}/cmake/Modules/Platform
+        install ${S}/cmake/Platform/WASI.cmake ${D}${datadir}/cmake/Modules/Platform/
+}
+
+
+#do_compile:prepend(){
+#    export PREFIX=/usr/share/wasi
+#}
+
+#do_install(){
+
+#    mkdir -p ${D}${datadir}/wasi-sysroot/bin
+#    mkdir -p ${D}${datadir}/wasi-sysroot/lib
+#    mkdir -p ${D}${datadir}/wasi-sysroot/include
+#    mkdir -p ${D}${datadir}/wasi-sysroot/share
+
+#    cp ${S}/build/install/usr/share/wasi/bin/* ${D}${datadir}/wasi-sysroot/bin/
+
+#    cp -r ${S}/build/install/usr/share/wasi/lib/* ${D}${datadir}/wasi-sysroot/lib/
+#    cp -r ${S}/build/install/usr/share/wasi/share/clang ${D}${datadir}/wasi-sysroot/share/
+#    cp -r ${S}/build/install/usr/share/wasi/share/cmake ${D}${datadir}/wasi-sysroot/share/
+#    cp -r ${S}/build/install/usr/share/wasi/share/misc ${D}${datadir}/wasi-sysroot/share/
+
+#    cp -r ${S}/build/install/usr/share/wasi/share/wasi-sysroot/include/* ${D}${datadir}/wasi-sysroot/include/
+
+#    cp -r ${S}/build/install/usr/share/wasi/share/wasi-sysroot/lib/* ${D}${datadir}/wasi-sysroot/lib/
+#    cp -r ${S}/build/install/usr/share/wasi/share/wasi-sysroot/share/* ${D}${datadir}/wasi-sysroot/share/
+#}
+
+FILES:${PN} += "${prefix}/clang-resource-dir ${datadir}/wasi-sdk"

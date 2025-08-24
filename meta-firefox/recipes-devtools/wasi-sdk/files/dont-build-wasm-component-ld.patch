@@ -1,0 +1,51 @@
+Don't build wasm-comonent-ld, because it requiresd network access during
+compile time. It is provided by a separate recipe.
+
+Upstream-Status: Inappropriate [oe-specific build change]
+diff --git a/cmake/wasi-sdk-toolchain.cmake b/cmake/wasi-sdk-toolchain.cmake
+index 0e1cf4e..79833c5 100644
+--- a/cmake/wasi-sdk-toolchain.cmake
++++ b/cmake/wasi-sdk-toolchain.cmake
+@@ -116,24 +116,24 @@ install(DIRECTORY ${wasi_tmp_install}/bin ${wasi_tmp_install}/lib ${wasi_tmp_ins
+         DESTINATION ${CMAKE_INSTALL_PREFIX})
+ 
+ # Build logic for `wasm-component-ld` installed from Rust code.
+-set(wasm_component_ld_root ${CMAKE_CURRENT_BINARY_DIR}/wasm-component-ld)
+-set(wasm_component_ld ${wasm_component_ld_root}/bin/wasm-component-ld${CMAKE_EXECUTABLE_SUFFIX})
+-set(wasm_component_ld_version 0.5.14)
+-if(RUST_TARGET)
+-  set(rust_target_flag --target=${RUST_TARGET})
+-endif()
+-add_custom_command(
+-  OUTPUT ${wasm_component_ld}
+-  COMMAND
+-    cargo install --root ${wasm_component_ld_root} ${rust_target_flag}
+-      wasm-component-ld@${wasm_component_ld_version}
+-  COMMAND
+-    cmake -E make_directory ${wasi_tmp_install}/bin
+-  COMMAND
+-    cmake -E copy ${wasm_component_ld} ${wasi_tmp_install}/bin
+-  COMMENT "Building `wasm-component-ld` ...")
+-add_custom_target(wasm-component-ld DEPENDS ${wasm_component_ld})
+-add_dependencies(build wasm-component-ld)
++#set(wasm_component_ld_root ${CMAKE_CURRENT_BINARY_DIR}/wasm-component-ld)
++#set(wasm_component_ld ${wasm_component_ld_root}/bin/wasm-component-ld${CMAKE_EXECUTABLE_SUFFIX})
++#set(wasm_component_ld_version 0.5.14)
++#if(RUST_TARGET)
++#  set(rust_target_flag --target=${RUST_TARGET})
++#endif()
++#add_custom_command(
++#  OUTPUT ${wasm_component_ld}
++#  COMMAND
++#    cargo install --root ${wasm_component_ld_root} ${rust_target_flag}
++#      wasm-component-ld@${wasm_component_ld_version}
++#  COMMAND
++#    cmake -E make_directory ${wasi_tmp_install}/bin
++#  COMMAND
++#    cmake -E copy ${wasm_component_ld} ${wasi_tmp_install}/bin
++#  COMMENT "Building `wasm-component-ld` ...")
++#add_custom_target(wasm-component-ld DEPENDS ${wasm_component_ld})
++#add_dependencies(build wasm-component-ld)
+ 
+ # Setup installation logic for CMake support files.
+ add_custom_target(misc-files)
