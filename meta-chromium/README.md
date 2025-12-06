@@ -18,6 +18,10 @@ This layer depends on:
   - branch: master
   - revision: HEAD
 
+**NOTE**: the compiler may require some adjustments based on the latest dependencies
+updates. Please refer to the *Test-built* section in the update commit logs for
+specific revision hashes used during build tests.
+
 ## Contributing
 
 The preferred way to contribute to this layer is to send GitHub pull requests or
