@@ -75,6 +75,8 @@ SRC_URI += "https://ftp.mozilla.org/pub/firefox/releases/${PV}/source/firefox-${
            file://prefs/Set-DPI-to-system-settings.patch \
            "
 
+SRC_URI:append:toolchain-gcc = " file://fix-gcc-compilation.patch"
+
 SRCREV_FORMAT = "default"
 
 # Add a config file to enable GPU acceleration by default.
@@ -93,8 +95,6 @@ SRC_URI += "${@bb.utils.contains('PACKAGECONFIG', 'forbid-multiple-compositors',
            'file://prefs/single-compositor.js \
             file://fixes/0001-Enable-to-suppress-multiple-compositors.patch \
            ', '', d)}"
-
-TOOLCHAIN:pn-firefox = "clang"
 
 DISABLE_STATIC = ""
 
